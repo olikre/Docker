@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND="noninteractive"
 
 RUN	apt-get update && \
 	apt-get -y upgrade && \
-	apt-get -y install htop wget openjdk-8-jdk-headless unzip \
+	apt-get -y install htop wget openjdk-8-jdk-headless unzip &&\
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* && 
 		
