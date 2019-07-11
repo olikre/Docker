@@ -1,5 +1,10 @@
 FROM ubuntu:18.04
 LABEL maintainer "oliver.krebs@me.com"
+LABEL Description="McMyAdmin"
+LABEL Vendor="olikre"
+LABEL Version="1.0"
+
+ENV JAVA_MEMORY=1024
 
 EXPOSE	8080
 EXPOSE	25565
@@ -21,23 +26,21 @@ WORKDIR	/home/mcmyadmin
 RUN	wget http://mcmyadmin.com/Downloads/MCMA2_glibc26_2.zip && \
 	unzip MCMA2_glibc26_2.zip && rm MCMA2_glibc26_2.zip
 
-WORKDIR	/home/mcmyadmin/Minecraft
-RUN echo 'eula=true' > /home/mcmyadmin/Minecraft/eula.txt
+RUN mkdir /home/mcmyadmin/Minecraft && \
+    echo 'eula=true' > /home/mcmyadmin/Minecraft/eula.txt
 
 RUN echo '#!/bin/sh' > /start.sh && \
-    echo 'FILE=/home/mcmyadmin/pass.txt' >> /start.sh && \
     echo 'if [ -z $JAVA_MEMORY ]; then' >> /start.sh && \
     echo '   JAVA_MEMORY=2048' >> /start.sh && \
     echo 'fi' >> /start.sh && \
-    echo 'if [ -f "$FILE" ]; then' >> /start.sh && \
-    echo '   /home/mcmyadmin/MCMA2_Linux_x86_64 +java.memory $JAVA_MEMORY' >> /start.sh && \
-    echo 'else' >> /start.sh && \
-    echo '   /home/mcmyadmin/MCMA2_Linux_x86_64 -setpass admin +java.memory $JAVA_MEMORY' >> /start.sh && \
-    echo '   touch $FILE' >> /start.sh && \
-    echo 'fi' >> /start.sh
+    echo '/home/mcmyadmin/MCMA2_Linux_x86_64 +java.memory $JAVA_MEMORY' >> /start.sh
 
 RUN	chmod 755 /start.sh
 
-RUN	/home/mcmyadmin/MCMA2_Linux_x86_64 -nonotice -updateonly -setpass test1234 
+RUN touch /home/mcmyadmin/McMyAdmin.conf
+RUN	/home/mcmyadmin/MCMA2_Linux_x86_64 -nonotice -updateonly 
+RUN	/home/mcmyadmin/MCMA2_Linux_x86_64 -configonly -setpass admin 
+
+VOLUME /home/mcmyadmin
 
 CMD	["/start.sh"]
