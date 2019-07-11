@@ -4,11 +4,10 @@ LABEL Description="McMyAdmin"
 LABEL Vendor="olikre"
 LABEL Version="1.0"
 
-ENV JAVA_MEMORY=1024
+ENV JAVA_MEMORY=2048
 
 EXPOSE	8080
 EXPOSE	25565
-EXPOSE	8123
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
@@ -30,9 +29,6 @@ RUN mkdir /home/mcmyadmin/Minecraft && \
     echo 'eula=true' > /home/mcmyadmin/Minecraft/eula.txt
 
 RUN echo '#!/bin/sh' > /start.sh && \
-    echo 'if [ -z $JAVA_MEMORY ]; then' >> /start.sh && \
-    echo '   JAVA_MEMORY=2048' >> /start.sh && \
-    echo 'fi' >> /start.sh && \
     echo '/home/mcmyadmin/MCMA2_Linux_x86_64 +java.memory $JAVA_MEMORY' >> /start.sh
 
 RUN	chmod 755 /start.sh
