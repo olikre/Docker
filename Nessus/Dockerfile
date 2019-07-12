@@ -11,7 +11,7 @@ ENV PROXY_PASS   ""
 ENV PROXY_AGENT  ""
 ENV LICENSE      ""
 ENV ADMIN_USER   "admin"
-ENV ADMIN_PASS   ""
+ENV ADMIN_PASS   "admin"
 
 COPY nessus.sh nessus_adduser.exp /usr/bin/
 COPY yum.repo /etc/yum.repos.d/Tenable.repo
