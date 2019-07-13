@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 LABEL maintainer "oliver.krebs@me.com"
 LABEL Description="McMyAdmin"
 LABEL Vendor="olikre"
-LABEL Version="1.0"
+LABEL Version="1.1"
 
 ENV JAVA_MEMORY=2048
 
@@ -36,7 +36,5 @@ RUN	chmod 755 /start.sh
 RUN touch /home/mcmyadmin/McMyAdmin.conf
 RUN	/home/mcmyadmin/MCMA2_Linux_x86_64 -nonotice -updateonly 
 RUN	/home/mcmyadmin/MCMA2_Linux_x86_64 -configonly -setpass admin 
-
-VOLUME /home/mcmyadmin
 
 CMD	["/start.sh"]
